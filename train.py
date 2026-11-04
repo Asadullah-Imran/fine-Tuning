@@ -291,6 +291,7 @@ if __name__ == '__main__':
     parser.add_argument('--ofat_param', type=str, default='beta', choices=['beta', 'gamma', 'delta', 'lr', 'spatial_k', 'all'])
     parser.add_argument('--hpo_trials', type=int, default=30, help="Number of Optuna trials")
     parser.add_argument('--hpo_search_mode', type=str, default='standard', choices=['loss_weights', 'training', 'graph', 'architecture', 'full', 'standard'])
+    parser.add_argument('--study_name', type=str, default='muse_gcn_universal_hpo', help="Name of the Optuna study")
     parser.add_argument('--ablation_type', type=str, default='fusion', choices=['backbone', 'depth', 'fusion', 'all'])
 
     args = parser.parse_args()
@@ -314,7 +315,8 @@ if __name__ == '__main__':
             seeds=target_seeds,
             n_trials=args.hpo_trials,
             search_mode=args.hpo_search_mode,
-            epochs_per_trial=args.epochs if args.epochs != 350 else 150,
+            epochs_per_trial=args.epochs,
+            study_name=args.study_name,
             storage_dir=os.path.join(args.output_dir, "optimization"),
             device=args.device
         )
