@@ -79,7 +79,7 @@ def run_optuna_study(
     print(f"• Database Storage: {storage_url}")
     print("=" * 75 + "\n")
 
-    study.optimize(objective, n_trials=n_trials, show_progress_bar=True)
+    study.optimize(objective, n_trials=n_trials, show_progress_bar=True, catch=(Exception,))
 
     print("\n" + "=" * 75)
     print(" 🏆 OPTUNA STUDY COMPLETE - BEST CONFIGURATION ".center(75, "="))
