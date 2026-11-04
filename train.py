@@ -307,9 +307,11 @@ if __name__ == '__main__':
 
     elif args.mode == 'hpo':
         from optimization.tune_optuna import run_optuna_study
-        target_dataset = args.datasets[0] if args.datasets != ['all'] else '10x_human_lymph_node_A1'
+        target_datasets = args.datasets if len(args.datasets) > 1 or args.datasets[0] != 'all' else 'all'
+        target_seeds = [int(s) for s in args.seeds] if args.seeds else [42, 1234, 2024]
         run_optuna_study(
-            dataset_name=target_dataset,
+            datasets=target_datasets,
+            seeds=target_seeds,
             n_trials=args.hpo_trials,
             search_mode=args.hpo_search_mode,
             epochs_per_trial=args.epochs if args.epochs != 350 else 150,
