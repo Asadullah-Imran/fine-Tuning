@@ -1,0 +1,34 @@
+# MUSE-GCN Architectural and Component Ablation Plan
+experiments:
+  backbone_comparison:
+    models: ["gcn", "gat", "sage", "gin"]
+    layers: 1
+    description: "Evaluates neighborhood aggregation mechanism under identical graph and budget"
+
+  depth_comparison:
+    layers: [1, 2, 3]
+    gnn_type: "gcn"
+    description: "Evaluates multi-hop information aggregation vs oversmoothing"
+
+  fusion_comparison:
+    variants:
+      - name: "RNA_Only"
+        fusion_type: "rna_only"
+      - name: "Aux_Only"
+        fusion_type: "aux_only"
+      - name: "Linear_Concat"
+        fusion_type: "concat"
+      - name: "Weighted_Fusion_0.5"
+        fusion_type: "weighted"
+        alpha: 0.5
+      - name: "Weighted_Fusion_0.7"
+        fusion_type: "weighted"
+        alpha: 0.7
+      - name: "Attention_Fusion"
+        fusion_type: "attention"
+
+  graph_construction:
+    spatial_k: [4, 6, 8, 10, 15, 20]
+    feature_k: [4, 6, 8, 10, 15, 20]
+    metrics: ["cosine", "euclidean"]
+

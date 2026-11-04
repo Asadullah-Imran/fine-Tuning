@@ -1,0 +1,35 @@
+# MUSE-GCN Baseline Configuration (Frozen from original implementation)
+model:
+  gnn_type: "gcn"
+  num_layers: 1
+  hidden_dim: 512
+  out_dim: 64
+  dropout: 0.0
+  fusion_type: "concat"
+  alpha: 0.5
+
+loss:
+  beta: 25.0       # Reconstruction weight
+  gamma: 10.0      # Spatial regularization weight
+  delta: 1.0       # Weight decay regularizer weight
+  l1_lambda: 1e-4
+  l2_lambda: 1e-3
+
+graph:
+  spatial_k: 15
+  feature_k_rna: 15
+  feature_k_aux: 15
+  metric: "cosine"
+  include_self_loops: false
+
+training:
+  epochs: 350
+  lr: 0.001
+  weight_decay: 0.0
+  optimizer: "adam"
+  rna_pca_comps: 60
+  clustering_method: "kmeans"
+  cluster_restarts: 10
+
+seeds: [42, 1234, 2024]
+
