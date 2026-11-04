@@ -8,6 +8,11 @@ import torch.nn as nn
 from tqdm import tqdm
 from typing import Dict, Any, Optional
 
+try:
+    import optuna
+except ImportError:
+    optuna = None
+
 from clustering.cluster_engine import cluster_embeddings
 from utils.metrics import compute_all_metrics
 
@@ -136,7 +141,8 @@ def train_muse_gcn(
             if trial is not None and (epoch + 1) % 25 == 0:
                 trial.report(sil, epoch)
                 if trial.should_prune():
-                    raise optuna.TrialPruned()
+                    if optuna is not None:
+                        raise optuna.TrialPruned()
 
             postfix = {'loss': f'{loss.item():.4f}', 'sil': f'{sil:.4f}', 'ari': f'{ari:.4f}'}
             pbar.set_postfix(postfix)
